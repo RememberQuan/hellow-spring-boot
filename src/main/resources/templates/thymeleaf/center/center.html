@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script th:src="@{/static/lib/jquery/jquery-1.9.1.min.js}"></script>
+
+</head>
+<body>
+<div>
+    用户姓名：<input th:id="${user.name}" th:name="${user.name}" th:value="${user.name}">
+    <br/>
+    用户年龄：<input th:value="${user.age}">
+    <br/>
+    用户生日：<input th:value="${#dates.format(user.birthday,'dd/MM/yyyy')}">
+    <br/>
+    用户生日：<input th:value="${user.birthday}">
+</div>
+<br/>
+<br/>
+
+<div th:object="${user}">
+    用户姓名：<input th:id="*{name}" th:name="*{name}" th:value="*{name}">
+    <br/>
+    用户年龄：<input th:value="*{age}">
+    <br/>
+    用户生日：<input th:value="*{#dates.format(birthday,'dd/MM/yyyy')}">
+    <br/>
+    用户生日：<input th:value="*{birthday}">
+</div>
+<br/>
+<br/>
+
+text与utext：<br/>
+<span th:text="${user.desc}">abc</span>
+<span th:utext="${user.desc}">abc</span>
+<br/>
+<br/>
+
+URL:<br/>
+<a href="" th:href="@{http://www.baidu.com}">百度</a>
+<br/>
+<br/>
+
+<form th:action="@{/th/postform}" th:object="${user}" th:method="post">
+    <input type="text" th:field="*{name}"> <!--th:field会自动将name解析为 id=name name=name value=name-->
+    <input type="submit">
+</form>
+<br/>
+<br/>
+
+<div th:if="${user.age} == 18">等于18岁</div>
+<div th:if="${user.age} gt 18">大于18岁</div>
+<div th:if="${user.age} lt 18">小于18岁</div>
+<div th:if="${user.age} ge 18">大于等于18岁</div>
+<div th:if="${user.age} le 18">小于等于18岁</div>
+<br/>
+<br/>
+
+<select>
+    <option>请选择</option>
+    <option th:selected="${user.name eq 's1'}">s1</option>
+    <option th:selected="${user.name eq 's2'}">s2</option>
+    <option th:selected="${user.name eq 's3'}">s3</option>
+</select>
+<br/>
+<br/>
+
+<table>
+    <tr>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>备注</th>
+        <th>生日</th>
+    </tr>
+    <tr th:each="person:${userList}">
+        <td th:text="${person.name}"></td>
+        <td th:text="${person.age}"></td>
+        <td th:utext="${person.desc}"></td>
+        <td th:text="${#dates.format(person.birthday,'yyyy-MM-dd HH:mm:ss')}"></td>
+    </tr>
+</table>
+<br/>
+<br/>
+
+<div th:switch="${user.name}">
+    <p th:case="'s1'">s1</p>
+    <p th:case="#{roles.manger}">普通管理员</p>
+    <p th:case="#{roles.superadmin}">超级管理员</p>
+    <p th:case="*">其他用户</p>
+</div>
+
+
+<script>
+    console.log($('#s1').attr('name'));
+    console.log($('#s1').val());
+</script>
+</body>
+</html>

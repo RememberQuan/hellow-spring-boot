@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script th:src="@{/static/lib/jquery/jquery-1.9.1.min.js}"></script>
+
+</head>
+<body>
+
+
+<script>
+    $.ajax({
+        url: '/err/getAjaxerror',
+        type: 'POST',
+        async: false,
+        success: function (data) {
+            debugger
+            if (data.success)  {
+                alert('success');
+            } else {
+                alert(data.msg);
+            }
+        },
+        error: function (response, ajaxOption, throwError) {
+            alert("error");
+        }
+    });
+
+</script>
+</body>
+</html>
